@@ -1,5 +1,6 @@
 package io.syarifuddinahmads.exambrowser
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
@@ -11,12 +12,16 @@ import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var editTextInputUrl:EditText
-    private lateinit var btnSubmit:Button
+    // declare component variable
+    private lateinit var editTextInputUrl: EditText
+    private lateinit var btnSubmit: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // hide navigation bar
+        supportActionBar?.hide()
 
         // initial component
         editTextInputUrl = findViewById(R.id.editText_url_input)
@@ -24,10 +29,12 @@ class MainActivity : AppCompatActivity() {
 
         // action component
         btnSubmit.setOnClickListener {
-            if(!editTextInputUrl.text.equals("")){
-
-            }else{
-                Toast.makeText(this,"Inputkan URL...",Toast.LENGTH_LONG)
+            if (editTextInputUrl.text.toString() != "") {
+                val intent = Intent(this, WebViewActivity::class.java)
+                intent.putExtra("url", editTextInputUrl.text.toString())
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Inputkan URL...", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -41,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     // set key down pressed
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if(keyCode == KeyEvent.KEYCODE_HOME){
+        if (keyCode == KeyEvent.KEYCODE_HOME) {
             dialogConfirmCloseApp()
             return true
         }
@@ -50,7 +57,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // create dialog confirm for exit app
-    private fun dialogConfirmCloseApp(){
+    private fun dialogConfirmCloseApp() {
         // set and create alert dialog
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Keluar Aplikasi !")
