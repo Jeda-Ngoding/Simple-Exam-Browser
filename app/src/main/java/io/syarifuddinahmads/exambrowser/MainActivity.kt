@@ -1,5 +1,7 @@
 package io.syarifuddinahmads.exambrowser
 
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // set on back pressed
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         // super.onBackPressed()
         dialogConfirmCloseApp()
@@ -77,5 +80,13 @@ class MainActivity : AppCompatActivity() {
         // set dialog
         val dialog: AlertDialog = builder.create()
         dialog.show()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        val activityManager =
+            applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        activityManager.moveTaskToFront(taskId, 0)
     }
 }

@@ -9,11 +9,14 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.WindowManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import java.net.URISyntaxException
+import kotlin.system.exitProcess
 
 class WebViewActivity : AppCompatActivity() {
 
@@ -23,6 +26,12 @@ class WebViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
+
+        // disable capture and recording
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        )
 
         // hide navigation bar
         supportActionBar?.hide()
@@ -40,9 +49,8 @@ class WebViewActivity : AppCompatActivity() {
 
         // setting webview
         webView.webViewClient = object : WebViewClient() {
-
+            @Deprecated("Deprecated in Java")
             override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                Toast.makeText(applicationContext, url.toString(), Toast.LENGTH_SHORT).show()
                 if (url!!.startsWith("https") || url.startsWith("http")) {
                     return false
                 } else {
@@ -89,6 +97,7 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     var doubleBackToExitPressed = false
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
 
         // check webview control navigation
